@@ -1,0 +1,75 @@
+---
+pagetitle: "About the study"
+---
+
+```{r setup}
+source("R/helpers.R")
+global <- read_site_csv("global_effects")
+pmid_link <- function(id) sprintf('<a href="https://pubmed.ncbi.nlm.nih.gov/%s/">PMID %s</a>', id, id)
+```
+
+# About the study
+
+<p class="lede">`r site$paper$title`. `r site$paper$authors_short`. `r site$paper$status`.</p>
+
+## How it was done
+
+We measured the cortex in two ways, thickness and surface area, and compared standardized
+group differences (Cohen's d, adjusted for age, sex and scanning site) across three kinds of
+data that were analysed separately. For 11 copy number variants and sex chromosome
+aneuploidies we had individual brain MRI scans of carriers and controls; for 7 more variants
+we used published estimates. For psychiatric diagnoses we used published case-control
+results from the ENIGMA consortium: 9 main case-control groups, with medication subgroups
+and age-stratified groups as further analyses. For common variants we looked up disorder-linked
+variants in a large genetic study of cortical structure and tested polygenic risk scores in
+UK Biobank.
+
+Regional maps (34 regions, averaged across hemispheres) were summarised into one shared
+pattern per data type and compared with the sensorimotor-to-association gradient using spin
+tests. The full methods, statistics and sensitivity analyses are in the paper.
+
+## Data sources
+
+```{r sources, results='asis'}
+var_pmids <- unique(global$pmid[global$group == "variant"])
+dx_pmids  <- unique(global$pmid[global$group == "diagnosis"])
+cat('<table class="sources-table"><thead><tr><th>Data</th><th>Sample</th><th>Source</th></tr></thead><tbody>')
+cat('<tr><td>Rare variants, individual-level MRI</td><td>', site$samples$variants_mri, '</td><td>This study; cohorts listed in the paper</td></tr>')
+cat('<tr><td>Rare variants, published estimates</td><td>', site$samples$variants_published, '</td><td>', paste(vapply(var_pmids, pmid_link, ""), collapse = ", "), '</td></tr>')
+cat('<tr><td>Psychiatric diagnoses</td><td>', site$samples$diagnoses_groups, ' (', format(sum(global$n_cases, na.rm = TRUE), big.mark = ','), ' cases); medication subgroups; age-stratified groups as sensitivity analyses</td><td>ENIGMA: ', paste(vapply(dx_pmids, pmid_link, ""), collapse = ", "), '</td></tr>')
+cat('<tr><td>Common variants, cortical lookup</td><td>', site$samples$cortical_gwas, '</td><td>Psychiatric Genomics Consortium and ENIGMA genome-wide studies</td></tr>')
+cat('<tr><td>Polygenic risk scores</td><td>', site$samples$prs, '</td><td>UK Biobank</td></tr>')
+cat('</tbody></table>')
+```
+
+The site shows only results reported in the paper and its supplementary tables. It does not
+host individual-level data or genome-wide summary statistics.
+
+## Limitations
+
+- The results are group-level associations from cross-sectional data; they do not show cause and effect, and they do not apply to any one person.
+- Common-variant analyses used European-ancestry genetic studies and UK Biobank participants of European ancestry; the results may differ in other ancestries.
+- Medication status may also reflect illness severity or duration, which could not be separated here.
+- The analysis of opposing effects covers bipolar disorder and schizophrenia only; evidence from the variance test is stronger for schizophrenia.
+- The set of rare variants depended on which carriers had MRI scans available.
+
+## Glossary {#glossary}
+
+```{r glossary, results='asis'}
+for (m in metrics) {
+  cat(sprintf('<div class="term" id="%s"><h3>%s</h3><p>%s</p></div>\n',
+              m$id, m$label, trimws(m$long)))
+}
+```
+
+## How to cite
+
+```{r cite, results='asis'}
+doi_txt <- if (nzchar(site$paper$doi)) sprintf(' <a href="https://doi.org/%s">doi:%s</a>', site$paper$doi, site$paper$doi) else if (nzchar(site$paper$preprint_url)) sprintf(' Preprint: <a href="%s">%s</a>', site$paper$preprint_url, site$paper$preprint_url) else ""
+cat(sprintf('<p class="cite">%s. %s. <em>%s</em>.%s</p>',
+            site$paper$authors_short, site$paper$title, site$paper$journal, doi_txt))
+```
+
+Analysis code for the paper's figures: [GitHub](`r site$paper$code_url`).
+Contact: <`r site$paper$contact`>.
+Brain surface: Desikan-Killiany atlas mesh from ggseg3d (Mowinckel and Vidal-Piñeiro, 2020).

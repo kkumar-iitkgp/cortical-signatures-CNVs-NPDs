@@ -1,0 +1,142 @@
+---
+pagetitle: "Genetic risk and psychiatric diagnoses leave different marks on the cortex"
+description: "Interactive summary of Kumar, Jacquemont et al.: copy number variants, common variants and psychiatric diagnoses show divergent cortical signatures."
+---
+
+```{r setup}
+source("R/helpers.R")
+global <- read_site_csv("global_effects")
+maps   <- read_site_csv("regional_maps")
+grad   <- read_site_csv("gradient_correlations")
+vt     <- read_site_csv("variance_test")
+sim    <- read_site_csv("prs_simulation")
+med    <- read_site_csv("medication_effects")
+herit  <- read_site_csv("heritability_gradient")
+n_cases <- format(sum(global$n_cases, na.rm = TRUE), big.mark = ",")
+dx_lab  <- paste0(site$samples$diagnoses_groups, " (", n_cases, " cases)")
+fold_ct <- round(fold_change(global, "CT"))
+fold_med <- round(median(abs(med$es_CT[med$group == "medicated"])) /
+                  median(abs(med$es_CT[med$group == "unmedicated"])))
+
+fold_sa <- round(fold_change(global, "SA"))
+n_var   <- sum(global$group == "variant")
+r2_ratio <- with(sim, min(r2_median[scenario == "Concordant"] / r2_median[scenario == "Empirical"]))
+r2_words <- if (r2_ratio >= 100) "more than 100 times" else paste0("about ", round(r2_ratio), " times")
+dis_name <- c(BD = "bipolar disorder", SCZ = "schizophrenia")
+vt <- vt[order(vt$p_variance), ]
+vt_text <- paste(vapply(seq_len(nrow(vt)), function(n) {
+  paste0(sprintf("%.2f", vt$variance_ratio[n]), " times the spread for ", dis_name[[vt$disorder[n]]],
+         " (p = ", vt$p_variance[n], if (vt$p_variance[n] >= 0.05) ", not significant" else "", ")")
+}, ""), collapse = " and ")
+snp_text <- paste(paste0(vt$n_snps, " ", dis_name[vt$disorder]), collapse = " and ")
+sim_dis  <- paste(dis_name[unique(sim$disorder)], collapse = " and ")
+svg <- function(f) cat(readLines(f, warn = FALSE), sep = "\n")
+```
+
+::: {.hero}
+<p class="kicker">`r site$paper$status`</p>
+
+# Genetic risk and psychiatric diagnoses leave different marks on the cortex
+
+<p class="lede">Rare genetic changes that raise the risk of autism, schizophrenia and other conditions are linked to the **surface area** of the brain's cortex. The diagnoses themselves are linked mostly to its **thickness**.</p>
+
+```{r cortex, results='asis'}
+svg("assets/cortex.svg")
+```
+:::
+
+::: {.sources}
+We compared three kinds of brain MRI results, each from its own data source:
+
+<dl class="source-list">
+<div><dt class="sw sw-variant">Rare genetic variants</dt><dd>`r n_var` copy number variants and chromosome changes: `r site$samples$variants_mri`, plus `r site$samples$variants_published`.</dd></div>
+<div><dt class="sw sw-common">Common genetic variants</dt><dd>Lead variants for each disorder from European-ancestry genetic studies, looked up in a `r site$samples$cortical_gwas`; risk scores tested in `r site$samples$prs`.</dd></div>
+<div><dt class="sw sw-diagnosis">Psychiatric diagnoses</dt><dd>`r dx_lab`, from published ENIGMA studies.</dd></div>
+</dl>
+:::
+
+## Surface area tracks genetic risk; thickness tracks diagnosis {#area-vs-thickness}
+
+<p class="takeaway">Genetic variants were linked to surface area differences about `r fold_sa` times larger than those seen in psychiatric diagnoses. Diagnoses were linked mainly to thickness.</p>
+
+<p class="why-abs">Variants differ in direction: a deletion and a duplication of the same region can shift the cortex in opposite ways. Start with "Direction and size" to see this; "Size only" then compares how strongly each variant or diagnosis is linked to each measure, whatever the direction, which is how the paper compares them.</p>
+
+```{r global-chart}
+view_toggle_script()
+global_figure(global)
+```
+
+<p class="chart-label">Thickness differences in diagnoses come mostly from groups taking medication</p>
+
+```{r medication-chart}
+plot_medication(med)
+```
+
+<p class="note">Thickness differences were about `r fold_med` times larger in medicated than in unmedicated groups, while surface area did not differ. This suggests thickness partly reflects illness and treatment rather than genetic risk. Medication status may also stand for illness severity or duration.</p>
+
+```{r, results='asis'}
+cat(how_to_read(c(
+  "Each dot is one genetic variant, or one diagnostic group compared with controls. Tap or hover over a dot to see its name, its effect size with sign, and its sample.",
+  "In \"Direction and size\", dots left of zero mean smaller than controls, right of zero larger. In \"Size only\", further right means a larger difference in either direction, on a log scale, and the dotted bar marks each group's median.",
+  "Diagnoses are the 9 main case-control groups. Age-stratified groups (young and pediatric) were sensitivity analyses and are described in the paper."
+), ids = c("surface_area", "thickness", "cohens_d", "cnv")))
+cat(provenance(site$refs$global, paste0(site$samples$variants_mri, ", plus ", site$samples$variants_published, "; ", dx_lab, "; medication subgroups: 9 medicated and 5 unmedicated adult groups")))
+```
+
+## Genetic variants: sensorimotor regions. Diagnoses: association regions. {#regions}
+
+<p class="takeaway">Rare and common variants showed their largest surface area effects in regions for movement and the senses, the same regions where heritability is highest. Diagnoses showed theirs in regions for higher-order thinking.</p>
+
+```{r brain-map}
+brain_controls("brain")
+plot_brain(maps, grad, el_id = "brain")
+```
+
+```{r gradient-chart}
+plot_gradient_bars(grad, herit)
+```
+
+```{r, results='asis'}
+cat(how_to_read(c(
+  "The brain shows one shared regional pattern at a time. Orange marks regions with higher scores, purple lower. Drag to rotate; switch to the inner side to see the medial surface.",
+  "Choose Gradient to see the reference ordering of regions, from sensorimotor (blue) to association (yellow).",
+  "The chart below places each pattern on that gradient, as in Figure 5 of the paper. Left of zero means larger effects in sensorimotor regions, right of zero in association regions. Regional heritability, from twin and genetic studies, sits on the same side as the genetic variants. Filled symbols passed the spin test (p < 0.05); open symbols did not. Common-variant patterns were available for surface area only.",
+  "The same regional preference held with other ways of summarising the maps and when leaving out one variant or diagnosis at a time."
+), ids = c("latent_map", "gradient", "spin_test", "desikan")))
+cat(provenance(site$refs$regional, "11 variants with individual-level MRI; disorder-linked common variants in the cortical GWAS; ENIGMA diagnostic groups"))
+```
+
+## Effects in both directions offset each other {#opposing}
+
+<p class="takeaway">Disorder-linked variants were tied to larger or smaller surface area in similar numbers. Added together into a risk score, these effects largely offset each other.</p>
+
+```{r opposing, results='asis'}
+svg("assets/opposing.svg")
+```
+
+<p class="note">Polygenic risk scores for bipolar disorder and schizophrenia showed no association with total surface area in `r format(31413, big.mark = ",")` UK Biobank participants. Simulations using the measured variant effects (`r sim_dis`) show why: with the observed mix of directions, a risk score explains `r r2_words` less surface area than if the same effects all pointed one way.</p>
+
+```{r prs-chart}
+plot_prs(sim)
+```
+
+<p class="stat-line">Disorder-linked variants also varied more in their surface area effects than random variants matched for frequency: `r vt_text`.</p>
+
+```{r, results='asis'}
+cat(how_to_read(c(
+  "The arrows are an illustration, not data. The chart shows the simulations: each dot is the median of 10,000 simulated risk scores, and the line is its 95% interval. The vertical axis is logarithmic; each step is ten times larger.",
+  "The sizes of the variant effects are the same in both scenarios; only their directions differ.",
+  "For bipolar disorder and schizophrenia, 53 to 57% of risk variants were tied to smaller surface area and the rest to larger. These analyses cover these two disorders only, using European-ancestry genetic studies and participants. Rare variants showed the same balance: about half of the CNVs scored positively and half negatively on the shared surface area pattern."
+), ids = c("snp", "prs", "variance_ratio", "r2_sim")))
+cat(provenance(site$refs$opposing, paste0(snp_text, " lead variants after allele matching; ", site$samples$prs)))
+```
+
+## What this means {#meaning}
+
+::: {.meaning}
+- Brain differences seen in people with a psychiatric diagnosis are not a direct readout of their genetic risk.
+- Surface area, especially in sensorimotor regions, may be a clearer window onto genetic effects; thickness may reflect factors linked to illness, such as medication.
+- Averaging many genetic variants together can hide real effects that point in opposite directions.
+:::
+
+<p class="small-print">These are group-level associations from cross-sectional data. They do not predict or diagnose anything in an individual. [How the study was done](about.qmd)</p>

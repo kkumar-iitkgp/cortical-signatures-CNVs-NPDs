@@ -1,0 +1,106 @@
+# Single source of every definition shown on the site (tooltips, "How to read this" boxes,
+# and the glossary on the About page). Edit here; every page picks it up at the next render.
+# short: tooltip text, 15 words or fewer. long: glossary text, plain language.
+
+- id: surface_area
+  label: "Surface area"
+  short: "How much cortex there is, measured across the brain's folded sheet."
+  long: >
+    The area of the cerebral cortex, the folded outer sheet of the brain. Surface area is
+    largely set during fetal development, when the pool of cortical progenitor cells expands.
+
+- id: thickness
+  label: "Cortical thickness"
+  short: "How deep the cortical sheet is, from its surface to the white matter."
+  long: >
+    The depth of the cortical sheet. Thickness keeps changing through adolescence and
+    adulthood and can differ with age, illness and medication.
+
+- id: cnv
+  label: "Copy number variant (CNV)"
+  short: "A stretch of DNA that is deleted or duplicated, changing the dose of genes."
+  long: >
+    A rare genetic change in which a segment of a chromosome is missing (deletion) or present
+    in an extra copy (duplication). The CNVs studied here are known to raise the risk of
+    psychiatric and neurodevelopmental conditions. Sex chromosome aneuploidies (for example
+    XXY) and trisomy 21 change the dose of whole chromosomes and are included with them.
+
+- id: snp
+  label: "Common variant"
+  short: "A frequent single-letter DNA difference linked to a disorder in genetic studies."
+  long: >
+    A single-letter difference in DNA carried by many people. Large genome-wide studies have
+    linked hundreds of such variants to each psychiatric disorder; each one has a very small effect.
+
+- id: prs
+  label: "Polygenic risk score"
+  short: "A person's total common-variant risk for a disorder, adding up many small effects."
+  long: >
+    A score that adds up a person's common variants linked to a disorder, weighting each by its
+    effect on disorder risk. It summarises genetic liability but does not diagnose anyone.
+
+- id: cohens_d
+  label: "Effect size (Cohen's d)"
+  short: "Group difference in standard-deviation units; 0.2 is small, 0.8 is large."
+  long: >
+    The difference between a group (carriers or patients) and controls, divided by the
+    spread of the measure. It lets studies of different sizes and scanners be compared on one
+    scale. Here effects are adjusted for age, sex and scanning site.
+  caveat: "A group-level difference; it does not describe any single person."
+
+- id: latent_map
+  label: "Shared pattern (first principal component)"
+  short: "The main regional pattern shared across variants, or across diagnoses."
+  long: >
+    For each set of maps (for example, all CNV surface area maps), principal component analysis
+    finds the pattern that best summarises how regions vary together. The map shows each
+    region's score on that first pattern. Units are arbitrary; only the relative pattern matters.
+  caveat: >
+    The shared pattern summarises a modest part of the variation; individual variants and
+    diagnoses differ, and some go in opposite directions.
+
+- id: gradient
+  label: "Sensorimotor-to-association gradient"
+  short: "Ranks regions from movement and senses to higher-order thinking."
+  long: >
+    A well-established ordering of cortical regions, from primary sensory and motor areas
+    (vision, touch, movement), which develop early, to association areas (planning, language,
+    social thinking), which keep developing into adulthood.
+
+- id: spin_test
+  label: "Spin test"
+  short: "Checks a map-to-map match against randomly rotated maps."
+  long: >
+    Neighbouring brain regions tend to have similar values, which can make two maps look
+    alike by chance. The spin test rotates one map many times on the cortical sphere and asks
+    how often a random rotation matches as well as the real map.
+
+- id: variance_ratio
+  label: "Variance ratio"
+  short: "How much more spread out disorder variants' effects are than random variants'."
+  long: >
+    The spread of surface area effects for disorder-linked common variants, divided by the
+    spread for randomly chosen variants with matched allele frequency. Above 1 means the
+    disorder variants have larger effects, in both directions.
+
+- id: r2_sim
+  label: "Simulated risk-score association (R²)"
+  short: "Share of surface area differences a risk score would explain, in simulation."
+  long: >
+    In simulations, risk scores were built from the measured variant effects, either with
+    their observed mix of directions or with all directions made the same, keeping the sizes
+    unchanged. R² is the share of surface area differences between people that the score explains.
+
+- id: enigma
+  label: "ENIGMA"
+  short: "International consortium that pools brain MRI studies of psychiatric disorders."
+  long: >
+    The ENIGMA consortium combines brain MRI data from many sites worldwide. The diagnosis
+    results shown here use its published case-control summary statistics.
+
+- id: desikan
+  label: "Desikan atlas"
+  short: "A standard division of the cortex into 34 regions per hemisphere."
+  long: >
+    A widely used atlas that divides each hemisphere of the cortex into 34 named regions.
+    Values were averaged across the two hemispheres and are drawn on one hemisphere.

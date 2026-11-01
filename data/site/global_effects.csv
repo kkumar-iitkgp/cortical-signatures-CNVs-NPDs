@@ -1,0 +1,28 @@
+"group","name","subtype","es_SA","es_CT","source","pmid","n_label","n_cases"
+"variant","1q21.1 Del","Deletion",-1.72,0.37,"This study (individual-level MRI)","36865328","40 carriers",NA
+"variant","1q21.1 Dup","Duplication",0.68,0.08,"This study (individual-level MRI)","36865328","30 carriers",NA
+"variant","7q11.23 Del (WBS)","Deletion",-2.62,0.8,"Published meta-analysis","34509290","Published estimate",NA
+"variant","15q11.2 Del","Deletion",-0.3,0.38,"This study (individual-level MRI)","36865328","108 carriers",NA
+"variant","15q11.2 Dup","Duplication",-0.1,-0.14,"This study (individual-level MRI)","36865328","144 carriers",NA
+"variant","16p11.2 dist. Del","Deletion",-0.14,0.13,"Published meta-analysis","34509290","Published estimate",NA
+"variant","16p11.2 dist. Dup","Duplication",-0.19,-0.27,"Published meta-analysis","34509290","Published estimate",NA
+"variant","16p11.2 prox. Del","Deletion",0.6,-0.4,"This study (individual-level MRI)","36865328","82 carriers",NA
+"variant","16p11.2 prox. Dup","Duplication",-0.96,-0.56,"This study (individual-level MRI)","36865328","75 carriers",NA
+"variant","16p13.11 Dup","Duplication",-0.129,0.094,"This study (individual-level MRI)","36865328","50 carriers",NA
+"variant","Trisomy 21 (DS)","Duplication",-1.67,0.16,"Published meta-analysis","34509290","Published estimate",NA
+"variant","22q11.2 Del","Deletion",-1.18,0.66,"This study (individual-level MRI)","36865328","68 carriers",NA
+"variant","22q11.2 Dup","Duplication",0.29,-0.15,"This study (individual-level MRI)","36865328","26 carriers",NA
+"variant","XXX","Sex chromosome aneuploidy",-1.22,-0.46,"Published meta-analysis","34509290","Published estimate",NA
+"variant","XXY","Sex chromosome aneuploidy",-0.53,-0.19,"This study (individual-level MRI)","37480975","77 carriers",NA
+"variant","XYY","Sex chromosome aneuploidy",0.16,0.31,"This study (individual-level MRI)","37480975","30 carriers",NA
+"variant","XXYY","Sex chromosome aneuploidy",-0.53,-0.11,"Published meta-analysis","34509290","Published estimate",NA
+"variant","X (TS)","Sex chromosome aneuploidy",0.19,0.29,"Published meta-analysis","34509290","Published estimate",NA
+"diagnosis","Autism","ENIGMA case-control group",0.01,0.04,"ENIGMA summary statistics","32539527","489 cases, 2,869 controls",489
+"diagnosis","Schizophrenia","ENIGMA case-control group",-0.25,-0.52,"ENIGMA summary statistics","29960671","4,474 cases, 5,098 controls",4474
+"diagnosis","ADHD","ENIGMA case-control group",-0.03,0.01,"ENIGMA summary statistics","32539527","929 cases, 2,869 controls",929
+"diagnosis","Major depressive disorder","ENIGMA case-control group",0.0165,-0.053,"ENIGMA summary statistics","27137745","1,911 cases, 7,663 controls",1911
+"diagnosis","Bipolar disorder","ENIGMA case-control group",-0.046,-0.08,"ENIGMA summary statistics","28461699","1,769 cases, 2,559 controls",1769
+"diagnosis","Obsessive-compulsive disorder","ENIGMA case-control group",-0.0465,-0.099,"ENIGMA summary statistics","32539527","1,824 cases, 2,869 controls",1824
+"diagnosis","Clinical high risk, later psychosis","ENIGMA case-control group",-0.09,-0.26,"ENIGMA summary statistics","33950164","217 cases, 1,009 controls",217
+"diagnosis","Clinical high risk, no later psychosis","ENIGMA case-control group",-0.15,-0.18,"ENIGMA summary statistics","33950164","1,014 cases, 1,009 controls",1014
+"diagnosis","Conduct disorder","ENIGMA case-control group",-0.24,-0.05,"ENIGMA summary statistics","39025633","1,185 cases, 1,253 controls",1185

@@ -1,0 +1,26 @@
+# Everything about the paper that the site states in words lives here, so it can be updated in
+# one place at acceptance (figure numbers, status, DOI, links).
+
+paper:
+  title: "Copy number variants reveal divergent genetic and diagnostic cortical signatures across psychiatric disorders"
+  authors_short: "Kumar K, Liao Z, Kopal J, … Thompson PM, Jacquemont S"
+  journal: "Communications Medicine"
+  status: "Preprint available; revised version under review at Communications Medicine"
+  doi: ""            # fill at publication, e.g. "10.1038/s43856-0xx-xxxxx-x"
+  preprint_url: ""   # fill if a preprint is posted
+  code_url: "https://github.com/kkumar-iitkgp/ct_sa_across_disorders_and_variants"
+  contact: "kuldeep.kumar@umontreal.ca"
+
+# The site points to main figures only; everything else is "see the paper".
+refs:
+  global: "Figure 2 of the paper"
+  regional: "Figures 3 to 5 of the paper"
+  opposing: "the paper (Results)"
+
+# Sample sizes, stated per data source (never summed across sources).
+samples:
+  variants_mri: "730 carriers of 11 CNVs or sex chromosome aneuploidies and 870 controls (individual-level MRI)"
+  variants_published: "7 further variants from published meta-analyses"
+  diagnoses_groups: "8 disorders in 9 ENIGMA case-control groups"
+  cortical_gwas: "cortical GWAS of 51,665 people (Grasby et al. 2020)"
+  prs: "31,413 UK Biobank participants of European ancestry who carry none of the studied CNVs"

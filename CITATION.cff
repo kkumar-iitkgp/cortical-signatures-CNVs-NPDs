@@ -1,0 +1,17 @@
+cff-version: 1.2.0
+message: "If you use this site or its code, please cite the paper."
+title: "Cortical signatures: interactive summary"
+authors:
+  - family-names: Kumar
+    given-names: Kuldeep
+  - family-names: Jacquemont
+    given-names: Sébastien
+preferred-citation:
+  type: article
+  title: "Copy number variants reveal divergent genetic and diagnostic cortical signatures across psychiatric disorders"
+  authors:
+    - family-names: Kumar
+      given-names: Kuldeep
+    - family-names: Jacquemont
+      given-names: Sébastien
+  journal: "Communications Medicine"

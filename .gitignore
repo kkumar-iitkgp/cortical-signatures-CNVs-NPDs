@@ -1,0 +1,10 @@
+# The supplementary workbook holds third-party values (iPSYCH hazard ratios, per-SNP tables);
+# only the derived CSVs in data/site/ are committed.
+data-raw/
+.quarto/
+*_files/
+.Rhistory
+.RData
+.DS_Store
+
+/.quarto/

@@ -1,0 +1,38 @@
+project:
+  type: website
+  output-dir: docs
+  resources:
+    - .nojekyll
+  render:
+    - index.qmd
+    - about.qmd
+
+website:
+  title: "Cortical signatures"
+  site-url: "https://kkumar-iitkgp.github.io/cortical-signatures-CNVs-NPDs/"
+  repo-url: "https://github.com/kkumar-iitkgp/cortical-signatures-CNVs-NPDs"
+  navbar:
+    left:
+      - href: index.qmd
+        text: Findings
+      - href: about.qmd
+        text: About the study
+  page-footer:
+    left: "Kumar, Jacquemont et al. Content CC BY 4.0; code MIT."
+    right: "CHU Sainte-Justine Research Center, Université de Montréal"
+
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+    toc: false
+    smooth-scroll: false
+    link-external-newwindow: true
+    title-block-banner: false
+    lang: en
+
+execute:
+  echo: false
+  warning: false
+  message: false
+  freeze: false
