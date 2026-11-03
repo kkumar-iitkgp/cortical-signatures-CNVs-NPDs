@@ -73,3 +73,4 @@ cat(sprintf('<p class="cite">%s. %s. <em>%s</em>.%s</p>',
 Analysis code for the paper's figures: [GitHub](`r site$paper$code_url`).
 Contact: <`r site$paper$contact`>.
 Brain surface: Desikan-Killiany atlas mesh from ggseg3d (Mowinckel and Vidal-Piñeiro, 2020).
+Common and rare variant illustrations: NIAID NIH BIOART Source ([bioart.niaid.nih.gov/bioart/170](https://bioart.niaid.nih.gov/bioart/170) and [bioart.niaid.nih.gov/bioart/204](https://bioart.niaid.nih.gov/bioart/204)).

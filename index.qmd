@@ -48,13 +48,13 @@ svg("assets/cortex.svg")
 :::
 
 ::: {.sources}
-We compared three kinds of brain MRI results, each from its own data source:
+We compared brain MRI results from three sources, analysed separately:
 
-<dl class="source-list">
-<div><dt class="sw sw-variant">Rare genetic variants</dt><dd>`r n_var` copy number variants and chromosome changes: `r site$samples$variants_mri`, plus `r site$samples$variants_published`.</dd></div>
-<div><dt class="sw sw-common">Common genetic variants</dt><dd>Lead variants for each disorder from European-ancestry genetic studies, looked up in a `r site$samples$cortical_gwas`; risk scores tested in `r site$samples$prs`.</dd></div>
-<div><dt class="sw sw-diagnosis">Psychiatric diagnoses</dt><dd>`r dx_lab`, from published ENIGMA studies.</dd></div>
-</dl>
+<div class="source-cards">
+<div class="source-card"><img src="assets/icons/rare-variants.svg" alt="Rare variants" height="48"><h3 class="sw-variant">Rare variants</h3><p>`r n("variants")` copy number variants and sex chromosome aneuploidies. Individual-level MRI for `r n("variants_mri")` of them (`r n("carriers")` carriers, `r n("controls")` controls); published estimates for `r n("variants_published")`.</p></div>
+<div class="source-card"><img src="assets/icons/common-variants.svg" alt="Common variants" height="48"><h3 class="sw-common">Common variants</h3><p>Lead variants for ADHD, bipolar disorder, depression and schizophrenia from European-ancestry genetic studies, looked up in a cortical GWAS of `r n("cortical_gwas")` people. Risk scores in `r n("prs")` UK Biobank participants.</p></div>
+<div class="source-card"><img src="assets/icons/diagnoses.svg" alt="Psychiatric diagnoses" height="48"><h3 class="sw-diagnosis">Psychiatric diagnoses</h3><p>`r n("disorders")` disorders from published ENIGMA studies (`r n("enigma_cases")` cases, `r n("enigma_controls")` controls).</p></div>
+</div>
 :::
 
 ## Surface area tracks genetic risk; thickness tracks diagnosis {#area-vs-thickness}
