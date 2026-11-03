@@ -45,12 +45,9 @@ directly: Settings > Pages > Deploy from a branch > `main`, folder `/docs`.
 2. Update `config/site.yml`: status, DOI, figure and table references, sample sizes.
 3. Tag a release (v1.0) with the Zenodo integration switched on to get a DOI.
 
-## Schizophrenia variant list
+## Acknowledgement
 
-The paper's primary schizophrenia list is now the European-ancestry lead variants (128 in the
-cortical GWAS); the original 259-variant list is the sensitivity analysis. `R/prepare_data.R`
-reads ST10 and ST11 from the workbook; when the v3 workbook carries both schizophrenia rows,
-keep the primary (128) row there and the site text updates from the CSV.
+The site was developed with the help of Claude Code (Anthropic).
 
 ## Licence
 

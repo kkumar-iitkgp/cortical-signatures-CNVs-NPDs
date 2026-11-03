@@ -50,7 +50,7 @@ host individual-level data or genome-wide summary statistics.
 - The results are group-level associations from cross-sectional data; they do not show cause and effect, and they do not apply to any one person.
 - Common-variant analyses used European-ancestry genetic studies and UK Biobank participants of European ancestry; the results may differ in other ancestries.
 - Medication status may also reflect illness severity or duration, which could not be separated here.
-- The analysis of opposing effects covers bipolar disorder and schizophrenia only; evidence from the variance test is stronger for schizophrenia.
+- The analysis of opposing effects covers bipolar disorder and schizophrenia only, and genome-wide significant variants only; the variance test was not significant for either disorder.
 - The set of rare variants depended on which carriers had MRI scans available.
 
 ## Glossary {#glossary}
