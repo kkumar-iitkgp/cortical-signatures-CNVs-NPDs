@@ -6,7 +6,7 @@
 #   Rscript R/prepare_data.R
 #
 # Only values shown on the site are kept. Not exported: iPSYCH hazard ratios (ST1 HR_*),
-# demographics beyond N, per-SNP tables (ST5), regional PRS estimates (ST9), medication
+# demographics beyond N, per-SNP tables (ST6), regional PRS estimates (ST12), medication
 # young and pediatric sensitivity groups, and any per-disorder or per-CNV regional map.
 
 suppressPackageStartupMessages({
@@ -106,9 +106,9 @@ stopifnot(sum(medication$group == "medicated") == 9, sum(medication$group == "un
           !anyNA(medication$name))
 write.csv(medication, file.path(out_dir, "medication_effects.csv"), row.names = FALSE)
 
-# ---- 2. Regional latent maps (ST6, PC1 columns) and the cortical gradient -------------------
-st6 <- rd("ST6")
-maps <- st6 |>
+# ---- 2. Regional latent maps (ST8, PC1 columns) and the cortical gradient -------------------
+st8 <- rd("ST8")
+maps <- st8 |>
   transmute(
     label = paste0("lh_", Desikan_roi),
     gradient = cortical_gradient,
@@ -117,11 +117,11 @@ maps <- st6 |>
 stopifnot(nrow(maps) == 34, !anyDuplicated(maps$label))
 write.csv(maps, file.path(out_dir, "regional_maps.csv"), row.names = FALSE)
 
-# ---- 3. Map vs gradient correlations (ST7, PC1 rows) ----------------------------------------
-st7 <- rd("ST7")
-grad <- st7 |>
-  filter(concensus_measure == "PC1") |>
-  transmute(map, r = cor, p_spin = pspin)
+# ---- 3. Map vs gradient correlations (ST9, PC1 rows) ----------------------------------------
+st9 <- rd("ST9")
+grad <- st9 |>
+  filter(consensus_measure == "PC1") |>
+  transmute(map, r = cor, p_spin = pspin_one_sided)
 stopifnot(nrow(grad) == 5)
 write.csv(grad, file.path(out_dir, "gradient_correlations.csv"), row.names = FALSE)
 
@@ -134,25 +134,22 @@ heritability <- data.frame(
 )
 write.csv(heritability, file.path(out_dir, "heritability_gradient.csv"), row.names = FALSE)
 
-# ---- 4. Opposing effects: variance test (ST10) and PRS simulation (ST11) --------------------
-# Schizophrenia: the paper uses the European-ancestry lead SNPs only (Trubetskoy et al. 2022,
-# 128 SNPs in the cortical GWAS). Rows for any other SCZ list are dropped; until the workbook
-# holds the 128-SNP rows, the site shows bipolar disorder only in this section.
-scz_n_primary <- 128
-keep_row <- function(disorder, n) disorder != "SCZ" | n == scz_n_primary
-st10 <- rd("ST10") |>
-  filter(keep_row(Disorder, `N SNPs`)) |>
+# ---- 4. Opposing effects: sign split and variance test (ST13), PRS simulation (ST14) ----------
+is_primary <- function(version) grepl("(primary)", version, fixed = TRUE)
+st13 <- rd("ST13") |>
+  filter(is_primary(`SNP list version`)) |>
   transmute(disorder = Disorder, n_snps = `N SNPs`,
-            variance_ratio = `Variance Ratio`, p_variance = `P (variance)`)
-write.csv(st10, file.path(out_dir, "variance_test.csv"), row.names = FALSE)
+            variance_ratio = `Variance Ratio`, p_variance = `P (variance)`,
+            pct_smaller = `% risk alleles with smaller cortical estimate`)
+write.csv(st13, file.path(out_dir, "variance_test.csv"), row.names = FALSE)
 
-st11 <- rd("ST11")
-names(st11)[grepl("^Median R", names(st11))] <- "Median R2" # avoid locale issues with the superscript
-st11 <- st11 |>
-  filter(keep_row(Disorder, `N SNPs`)) |>
+st14 <- rd("ST14")
+names(st14)[grepl("^Median R", names(st14))] <- "Median R2" # avoid locale issues with the superscript
+st14 <- st14 |>
+  filter(is_primary(`SNP list version`)) |>
   transmute(disorder = Disorder, scenario = Scenario, n_snps = `N SNPs`,
             r2_median = `Median R2`, r2_lo = `95% CI Lower`, r2_hi = `95% CI Upper`,
             n_sim = `N Simulations`)
-write.csv(st11, file.path(out_dir, "prs_simulation.csv"), row.names = FALSE)
+write.csv(st14, file.path(out_dir, "prs_simulation.csv"), row.names = FALSE)
 
 message("Wrote ", length(list.files(out_dir)), " files to ", out_dir)

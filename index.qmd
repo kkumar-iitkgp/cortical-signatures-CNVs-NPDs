@@ -12,8 +12,8 @@ vt     <- read_site_csv("variance_test")
 sim    <- read_site_csv("prs_simulation")
 med    <- read_site_csv("medication_effects")
 herit  <- read_site_csv("heritability_gradient")
-n_cases <- format(sum(global$n_cases, na.rm = TRUE), big.mark = ",")
-dx_lab  <- paste0(site$samples$diagnoses_groups, " (", n_cases, " cases)")
+n <- function(key) format(site$counts[[key]], big.mark = ",")
+dx_lab  <- site$samples$diagnoses_groups
 fold_ct <- round(fold_change(global, "CT"))
 fold_med <- round(median(abs(med$es_CT[med$group == "medicated"])) /
                   median(abs(med$es_CT[med$group == "unmedicated"])))
@@ -24,10 +24,12 @@ r2_ratio <- with(sim, min(r2_median[scenario == "Concordant"] / r2_median[scenar
 r2_words <- if (r2_ratio >= 100) "more than 100 times" else paste0("about ", round(r2_ratio), " times")
 dis_name <- c(BD = "bipolar disorder", SCZ = "schizophrenia")
 vt <- vt[order(vt$p_variance), ]
-vt_text <- paste(vapply(seq_len(nrow(vt)), function(n) {
-  paste0(sprintf("%.2f", vt$variance_ratio[n]), " times the spread for ", dis_name[[vt$disorder[n]]],
-         " (p = ", vt$p_variance[n], if (vt$p_variance[n] >= 0.05) ", not significant" else "", ")")
+vt_text <- paste(vapply(seq_len(nrow(vt)), function(k) {
+  paste0(sprintf("%.2f", vt$variance_ratio[k]), " times the spread for ", dis_name[[vt$disorder[k]]],
+         " (p = ", formatC(vt$p_variance[k], format = "fg", digits = 2), ")")
 }, ""), collapse = " and ")
+vt_lead <- if (all(vt$p_variance >= 0.05)) "were not significantly more variable" else "were more variable"
+pct_smaller <- paste0(round(min(vt$pct_smaller)), " to ", round(max(vt$pct_smaller)), "%")
 snp_text <- paste(paste0(vt$n_snps, " ", dis_name[vt$disorder]), collapse = " and ")
 sim_dis  <- paste(dis_name[unique(sim$disorder)], collapse = " and ")
 svg <- function(f) cat(readLines(f, warn = FALSE), sep = "\n")
@@ -114,19 +116,19 @@ cat(provenance(site$refs$regional, "11 variants with individual-level MRI; disor
 svg("assets/opposing.svg")
 ```
 
-<p class="note">Polygenic risk scores for bipolar disorder and schizophrenia showed no association with total surface area in `r format(31413, big.mark = ",")` UK Biobank participants. Simulations using the measured variant effects (`r sim_dis`) show why: with the observed mix of directions, a risk score explains `r r2_words` less surface area than if the same effects all pointed one way.</p>
+<p class="note">Polygenic risk scores for bipolar disorder and schizophrenia showed no association with total surface area in `r n("prs")` UK Biobank participants. Simulations using the measured variant effects (`r sim_dis`) show why: with the observed mix of directions, a risk score explains `r r2_words` less surface area than if the same effects all pointed one way.</p>
 
 ```{r prs-chart}
 plot_prs(sim)
 ```
 
-<p class="stat-line">Disorder-linked variants also varied more in their surface area effects than random variants matched for frequency: `r vt_text`.</p>
+<p class="stat-line">The surface area effects of disorder-linked variants `r vt_lead` than those of random variants matched for frequency: `r vt_text`.</p>
 
 ```{r, results='asis'}
 cat(how_to_read(c(
   "The arrows are an illustration, not data. The chart shows the simulations: each dot is the median of 10,000 simulated risk scores, and the line is its 95% interval. The vertical axis is logarithmic; each step is ten times larger.",
   "The sizes of the variant effects are the same in both scenarios; only their directions differ.",
-  "For bipolar disorder and schizophrenia, 53 to 57% of risk variants were tied to smaller surface area and the rest to larger. These analyses cover these two disorders only, using European-ancestry genetic studies and participants. Rare variants showed the same balance: about half of the CNVs scored positively and half negatively on the shared surface area pattern."
+  paste0("For bipolar disorder and schizophrenia, ", pct_smaller, " of risk variants were tied to smaller surface area and the rest to larger. These analyses cover these two disorders only, using European-ancestry genetic studies and participants. Rare variants showed the same balance: about half of the CNVs scored positively and half negatively on the shared surface area pattern.")
 ), ids = c("snp", "prs", "variance_ratio", "r2_sim")))
 cat(provenance(site$refs$opposing, paste0(snp_text, " lead variants after allele matching; ", site$samples$prs)))
 ```

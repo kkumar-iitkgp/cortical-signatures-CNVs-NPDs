@@ -17,10 +17,23 @@ refs:
   regional: "Figures 3 to 5 of the paper"
   opposing: "the paper (Results)"
 
+# Sample sizes as reported in the paper (Methods and Figure 1).
+counts:
+  variants: 18
+  variants_mri: 11
+  carriers: 730
+  controls: 870
+  variants_published: 7
+  disorders: 8
+  enigma_cases: 18417
+  enigma_controls: 25568
+  cortical_gwas: 51665
+  prs: 31413
+
 # Sample sizes, stated per data source (never summed across sources).
 samples:
   variants_mri: "730 carriers of 11 CNVs or sex chromosome aneuploidies and 870 controls (individual-level MRI)"
   variants_published: "7 further variants from published meta-analyses"
-  diagnoses_groups: "8 disorders in 9 ENIGMA case-control groups"
+  diagnoses_groups: "8 disorders, 18,417 cases and 25,568 controls"
   cortical_gwas: "cortical GWAS of 51,665 people (Grasby et al. 2020)"
   prs: "31,413 UK Biobank participants of European ancestry who carry none of the studied CNVs"
