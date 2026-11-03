@@ -76,7 +76,8 @@ base_layout <- function(p, ...) {
 # Generic two-group dot strip for thickness (top) and surface area (bottom).
 # scale = "abs": absolute Cohen's d on a log axis with medians (the paper's view);
 # scale = "signed": signed Cohen's d on a linear axis, zero line, no medians.
-strip_plot <- function(d, groups, labels, scale = c("abs", "signed")) {
+# violin = TRUE: a light density shape per group behind the dots, trimmed to the data range.
+strip_plot <- function(d, groups, labels, scale = c("abs", "signed"), violin = FALSE) {
   scale <- match.arg(scale)
   panel <- function(measure, measure_lab, show_x) {
     dd <- d
@@ -92,6 +93,22 @@ strip_plot <- function(d, groups, labels, scale = c("abs", "signed")) {
     if (scale == "signed") {
       p <- add_segments(p, x = 0, xend = 0, y = -0.6, yend = length(groups) - 0.4,
                         line = list(color = pal$axis, width = 1), hoverinfo = "skip")
+    }
+    if (violin) {
+      for (g in groups) {
+        v <- dd$x[dd$group == g]
+        if (scale == "abs") v <- log10(v)
+        grid <- seq(min(v), max(v), length.out = 100)
+        dens <- density(v)
+        w <- approx(dens$x, dens$y, grid)$y
+        w <- 0.35 * w / max(w)
+        y0 <- match(g, rev(groups)) - 1
+        xg <- if (scale == "abs") 10^grid else grid
+        p <- add_trace(p, x = c(xg, rev(xg)), y = c(y0 + w, rev(y0 - w)), type = "scatter", mode = "lines",
+                       fill = "toself", fillcolor = toRGB(pal[[g]], 0.12),
+                       line = list(color = toRGB(pal[[g]], 0.3), width = 0.5),
+                       hoverinfo = "skip", showlegend = FALSE)
+      }
     }
     for (g in groups) {
       gd <- dd[dd$group == g, ]
@@ -143,9 +160,9 @@ global_figure <- function(global, id = "global") {
         `data-target` = id,
         btn("signed", "Direction and size", FALSE),
         btn("abs", "Size only", TRUE)),
-    div(id = paste0(id, "-abs"), class = "view-panel", strip_plot(global, grp, labs, "abs")),
+    div(id = paste0(id, "-abs"), class = "view-panel", strip_plot(global, grp, labs, "abs", violin = TRUE)),
     div(id = paste0(id, "-signed"), class = "view-panel", hidden = NA,
-        strip_plot(global, grp, labs, "signed"))
+        strip_plot(global, grp, labs, "signed", violin = TRUE))
   )
 }
 
