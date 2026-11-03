@@ -39,12 +39,6 @@ quarto render                 # writes the static site to docs/
 The static site is the `docs/` folder (plain HTML, CSS and JavaScript). GitHub Pages serves it
 directly: Settings > Pages > Deploy from a branch > `main`, folder `/docs`.
 
-## Updating at acceptance
-
-1. Replace the workbook with the accepted version and rerun steps 1 to 2.
-2. Update `config/site.yml`: status, DOI, figure and table references, sample sizes.
-3. Tag a release (v1.0) with the Zenodo integration switched on to get a DOI.
-
 ## Schizophrenia variant list
 
 The paper's primary schizophrenia list is now the European-ancestry lead variants (128 in the
