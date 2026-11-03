@@ -2,7 +2,7 @@
 
 Live site: https://kkumar-iitkgp.github.io/cortical-signatures-CNVs-NPDs/
 
-A small static site that shows the main results of
+A static site that shows the main results of
 *Copy number variants reveal divergent genetic and diagnostic cortical signatures across psychiatric disorders*
 (Kumar, Jacquemont et al., Communications Medicine) for a general and scientific audience.
 
@@ -29,7 +29,7 @@ Requires R (plotly, htmlwidgets, htmltools, jsonlite, yaml, knitr, rmarkdown; re
 tidyr for data preparation) and Quarto 1.6 or later.
 
 ```sh
-# put the workbook at data-raw/SupplementaryTables.xlsx (not committed)
+# put the workbook at data-raw/SupplementaryTables.xlsx
 Rscript R/prepare_data.R      # tables -> data/site/*.csv
 Rscript tests/test_values.R   # every displayed value checked against the tables
 quarto preview                # local preview
@@ -39,15 +39,9 @@ quarto render                 # writes the static site to docs/
 The static site is the `docs/` folder (plain HTML, CSS and JavaScript). GitHub Pages serves it
 directly: Settings > Pages > Deploy from a branch > `main`, folder `/docs`.
 
-## Updating at acceptance
-
-1. Replace the workbook with the accepted version and rerun steps 1 to 2.
-2. Update `config/site.yml`: status, DOI, figure and table references, sample sizes.
-3. Tag a release (v1.0) with the Zenodo integration switched on to get a DOI.
-
 ## Acknowledgement
 
-The site was developed with the help of Claude Code (Anthropic).
+The site was developed with the help of Claude Code.
 
 ## Licence
 
